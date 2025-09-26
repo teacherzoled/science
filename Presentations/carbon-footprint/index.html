@@ -11,17 +11,18 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            overflow: hidden; /* Prevent scrolling the main page */
+            /* overflow: hidden; is removed to allow scrolling on slides */
         }
         .slide {
             min-height: 100vh;
             width: 100vw;
             display: none; /* Hidden by default */
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start; /* Align content to the top */
             align-items: center;
-            padding: 2rem;
+            padding: 4rem 2rem; /* Increased padding for better spacing */
             position: absolute;
+            overflow-y: auto; /* Allow vertical scrolling per slide */
             top: 0;
             left: 0;
             transition: opacity 0.5s ease-in-out;
