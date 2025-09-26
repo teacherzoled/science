@@ -349,9 +349,18 @@
             }
         });
         
-        // Update nav buttons visibility
-        document.getElementById('prevBtn').style.visibility = index === 0 ? 'hidden' : 'visible';
-        document.getElementById('nextBtn').style.visibility = index === totalSlides - 1 ? 'hidden' : 'visible';
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // Update nav buttons visibility and text
+        prevBtn.style.visibility = index === 0 ? 'hidden' : 'visible';
+        nextBtn.style.visibility = 'visible'; // Always visible
+
+        if (index === totalSlides - 1) {
+            nextBtn.innerHTML = 'Return to Start &#8634;'; // Change text for the last slide
+        } else {
+            nextBtn.innerHTML = 'Next &#9654;';
+        }
     }
 
     function changeSlide(direction) {
