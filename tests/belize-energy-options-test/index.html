@@ -294,7 +294,7 @@
             </div>
             <div class="input-group">
                 <label>Time Allowed:</label>
-                <span>40 minutes</span>
+                <span>20 minutes</span>
             </div>
             <div class="input-group">
                 <label>Total Marks:</label>
@@ -441,7 +441,10 @@
                 <span class="section-title">Section C – Guided Justification</span>
                 <span class="marks">(6 marks)</span>
             </div>
-            <p class="instructions">Complete the sentence frames. (2 marks per correct idea)</p>
+            <p class="instructions">
+                Complete the sentences by selecting the most appropriate options.
+                (2 marks per correct idea)
+            </p>
             <div style="text-align:right; margin-bottom:5px;">
                 <label class="switch review-toggle-wrapper" title="Review Section C">
                     <input type="checkbox" onchange="handleReviewToggle(this)" data-target-section="c">
@@ -450,41 +453,41 @@
             </div>
 
             <div class="sentence-frame" id="section-c-container">
-                Belize should use more 
-                <select id="q_c_1" class="inline-input">
-                    <option value="">(Select Source)</option>
+                Belize should use more
+                <select id="c1_energy" class="inline-input">
+                    <option value="">-- select energy --</option>
                     <option value="solar">Solar</option>
                     <option value="hydropower">Hydropower</option>
                     <option value="biomass">Biomass</option>
-                    <option value="imported fuel">Imported Fuel</option>
-                </select> 
-                energy because 
-                <select id="q_c_1_reason" class="inline-input">
-                    <option value="">(Select Reason)</option>
-                    <option value="it is renewable and clean">it is renewable and clean</option>
-                    <option value="it is suitable for Belize's weather">it is suitable for Belize's weather</option>
-                    <option value="it is expensive to import">it is expensive to import</option>
-                    <option value="it causes pollution">it causes pollution</option>
-                </select>.
-                <br>
-                <em>(Note: The first blank and reason are graded together as one item worth 2 marks).</em>
-                <br><br>
-                One limitation of this energy is 
-                <select id="q_c_2" class="inline-input">
-                    <option value="">(Select Limitation)</option>
-                    <option value="dependence on weather or droughts">dependence on weather/droughts</option>
-                    <option value="high initial cost">high initial cost</option>
-                    <option value="it is always available">it is always available</option>
-                    <option value="it creates too much energy">it creates too much energy</option>
+                </select>
+                energy because it is
+                <select id="c1_reason" class="inline-input">
+                    <option value="">-- select reason --</option>
+                    <option value="renewable">Renewable</option>
+                    <option value="clean">Clean</option>
+                    <option value="weather">Suitable for Belize’s weather</option>
+                    <option value="local">Local resource</option>
                 </select>.
                 <br><br>
-                This limitation can be mitigated by 
-                <select id="q_c_3" class="inline-input">
-                    <option value="">(Select Strategy)</option>
-                    <option value="using an energy mix">using an energy mix</option>
-                    <option value="reducing energy use">reducing energy use</option>
-                    <option value="ignoring the issue">ignoring the issue</option>
-                    <option value="relying only on diesel">relying only on diesel</option>
+
+                One limitation of this energy is
+                <select id="c2_limitation" class="inline-input">
+                    <option value="">-- select limitation --</option>
+                    <option value="drought">Drought</option>
+                    <option value="pollution">Pollution</option>
+                    <option value="weather">Weather dependence</option>
+                    <option value="cost">High cost</option>
+                    <option value="dependence">Dependence on other countries</option>
+                </select>.
+                <br><br>
+
+                This limitation can be mitigated by
+                <select id="c3_mitigation" class="inline-input">
+                    <option value="">-- select mitigation --</option>
+                    <option value="mix">Using an energy mix</option>
+                    <option value="solar">Adding solar energy</option>
+                    <option value="reduce">Reducing use during dry seasons</option>
+                    <option value="manage">Careful management</option>
                 </select>.
             </div>
         </section>
@@ -591,45 +594,32 @@
         // Logic: Keyword matching (case-insensitive). 2 marks per valid field.
         
         // Item 1: Combined check for Energy Source OR Reason
-        // Keywords: solar, hydropower, biomass, renewable, clean, Belize, weather, suitable
-        const inputC1_Source = document.getElementById("q_c_1").value.toLowerCase();
-        const inputC1_Reason = document.getElementById("q_c_1_reason").value.toLowerCase();
+        const c1_energy = document.getElementById("c1_energy").value;
+        const c1_reason = document.getElementById("c1_reason").value;
         
-        // Check if either the source input OR the reason input contains a keyword
-        const c1_combined = inputC1_Source + " " + inputC1_Reason;
-        const energyKeywords = ["solar", "hydropower", "biomass"];
-        const reasonKeywords = ["renewable", "clean", "belize", "weather", "suitable"];
+        // Valid values based on the provided HTML options
+        const validEnergy = ["solar", "hydropower", "biomass"];
+        const validReason = ["renewable", "clean", "weather", "local"];
 
-        const hasEnergy = energyKeywords.some(k => c1_combined.includes(k));
-        const hasReason = reasonKeywords.some(k => c1_combined.includes(k));
-
-        if (hasEnergy && hasReason) scoreC += 2;
+        if (validEnergy.includes(c1_energy) && validReason.includes(c1_reason)) {
+            scoreC += 2;
+        }
 
         // Item 2: Limitation
-        // Keywords: drought, pollution, weather, cost, dependence
-        const inputC2 = document.getElementById("q_c_2").value.toLowerCase();
-        const keywordsC2 = ["drought", "pollution", "weather", "cost", "dependence"];
-        let c2_correct = false;
-        for (let k of keywordsC2) {
-            if (inputC2.includes(k)) {
-                c2_correct = true;
-                break;
-            }
+        const c2_limitation = document.getElementById("c2_limitation").value;
+        const validLimitation = ["drought", "pollution", "weather", "cost", "dependence"];
+        
+        if (validLimitation.includes(c2_limitation)) {
+            scoreC += 2;
         }
-        if (c2_correct) scoreC += 2;
 
         // Item 3: Mitigation
-        // Keywords: energy mix, solar, reduce, manage, alternative
-        const inputC3 = document.getElementById("q_c_3").value.toLowerCase();
-        const keywordsC3 = ["energy mix", "solar", "reduce", "reduce use", "use less", "manage", "alternative"];
-        let c3_correct = false;
-        for (let k of keywordsC3) {
-            if (inputC3.includes(k)) {
-                c3_correct = true;
-                break;
-            }
+        const c3_mitigation = document.getElementById("c3_mitigation").value;
+        const validMitigation = ["mix", "solar", "reduce", "manage"];
+        
+        if (validMitigation.includes(c3_mitigation)) {
+            scoreC += 2;
         }
-        if (c3_correct) scoreC += 2;
 
 
         // --- TOTAL CALCULATION ---
