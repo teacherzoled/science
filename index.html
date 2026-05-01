@@ -212,6 +212,7 @@
   /* ═══════════════════════════════════════════
      BASE
   ═══════════════════════════════════════════ */
+  html { overflow-x: hidden; }
   body {
     font-family: 'Nunito', sans-serif;
     background: var(--bg);
@@ -460,6 +461,9 @@
     .lab-card { flex:0 1 100%; }
     .wide-card { flex:0 1 100%; }
     .subject-banner { max-height:200px; }
+    .cycle-divider { flex-wrap:wrap; gap:.4rem; }
+    .cycle-divider-label { white-space:normal; flex-shrink:1; }
+    .cycle-divider-line { display:none; }
   }
   @media (max-width:480px) {
     .grid .card { flex:0 1 100%; }
