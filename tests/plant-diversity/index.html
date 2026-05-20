@@ -589,8 +589,10 @@ h1{font-family:'Fredoka One',cursive;font-size:clamp(1.9rem,5vw,3.1rem);line-hei
         </div>
         <div class="sentence-wrap">
           <span class="sent-static">"The patch with greater biodiversity is</span>
-          <input class="sent-input" type="text" id="q9" placeholder="your evidence from the scenario…">
-          <span class="sent-static">&nbsp;because"</span>
+          <input class="sent-input" type="text" id="q9" placeholder="Patch A or Patch B…" style="max-width:160px;">
+          <span class="sent-static">because</span>
+          <input class="sent-input" type="text" id="q9b" placeholder="your evidence from the scenario…">
+          <span class="sent-static">"</span>
         </div>
         <div class="fb-box" id="q9-fb"></div>
       </div>
@@ -675,7 +677,7 @@ const QUESTION_MAP=[
   {id:'q6',type:'text',el:'q6'},
   {id:'q7',type:'text',el:'q7'},
   {id:'q8',type:'text',el:'q8'},
-  {id:'q9',type:'multi',parts:[{type:'radio',name:'q9pick'},{type:'text',el:'q9'}]},
+  {id:'q9',type:'multi',parts:[{type:'radio',name:'q9pick'},{type:'text',el:'q9'},{type:'text',el:'q9b'}]},
 ];
 const TOTAL_Q=QUESTION_MAP.length;
 
@@ -705,7 +707,7 @@ function updateQuestionProgress(){
 
 function attachProgressListeners(){
   document.querySelectorAll('.options input[type="radio"]').forEach(inp=>inp.addEventListener('change',updateQuestionProgress));
-  ['q5','q6','q7','q8','q9'].forEach(id=>document.getElementById(id).addEventListener('input',updateQuestionProgress));
+  ['q5','q6','q7','q8','q9','q9b'].forEach(id=>document.getElementById(id).addEventListener('input',updateQuestionProgress));
 }
 
 // ═══ ANSWERED FADE ═══
@@ -829,7 +831,7 @@ async function callAIGrading(passkey,auto){
     q6:document.getElementById('q6').value.trim()||'(blank)',
     q7:document.getElementById('q7').value.trim()||'(blank)',
     q8:document.getElementById('q8').value.trim()||'(blank)',
-    q9:`Chose Patch: ${q9pick}. Justification: ${document.getElementById('q9').value.trim()||'(blank)'}`,
+    q9:`Chose Patch: ${q9pick}. Patch name: ${document.getElementById('q9').value.trim()||'(blank)'}. Justification: ${document.getElementById('q9b').value.trim()||'(blank)'}`,
   };
 
   const systemPrompt=`You are a warm, encouraging Science teacher grading a Standard 6 test on Plant Diversity in Belize's Ecosystems (SC 6.20) for Howard Smith Nazarene School. Students are around 11–12 years old and live in Belize.
@@ -952,7 +954,7 @@ function displayFinalResults(auto,aiData){
       q6:document.getElementById('q6').value,
       q7:document.getElementById('q7').value,
       q8:document.getElementById('q8').value,
-      q9:`Patch: ${getRadio('q9pick')||''}: ${document.getElementById('q9').value}`,
+      q9:`Patch: ${getRadio('q9pick')||''} / ${document.getElementById('q9').value} / because: ${document.getElementById('q9b').value}`,
     }
   };
   saveResult(saveData);
