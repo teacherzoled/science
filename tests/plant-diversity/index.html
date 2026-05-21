@@ -942,7 +942,7 @@ function displayFinalResults(auto,aiData){
   const saveData={
     name:document.getElementById('studentName').value||'',
     date:document.getElementById('testDate').value,
-    sObj:auto,sD:secC,sTotal:total,sPct:pct,
+    sObj:auto,sB:secB,sD:secC,sTotal:total,sPct:pct,
     perf:document.getElementById('perfBadge').textContent,
     ai:aiData,
     answers:{
@@ -986,6 +986,7 @@ function downloadPDF(){
   const name=d.name||document.getElementById('studentName').value||'Not entered';
   const date=d.date||document.getElementById('testDate').value;
   const sObj=d.sObj!==undefined?d.sObj+'/12':document.getElementById('s-obj').textContent;
+  const sB=d.sB!==undefined?d.sB+'/12':'—';
   const sD=d.sD!==undefined?d.sD+'/6':document.getElementById('s-d').textContent;
   const sTotal=d.sTotal!==undefined?d.sTotal+'/30':document.getElementById('s-total').textContent;
   const sPct=d.sPct!==undefined?d.sPct+'%':document.getElementById('s-pct').textContent;
@@ -1011,10 +1012,10 @@ function downloadPDF(){
   doc.setFont('helvetica','bold');doc.text('SCHOOL:',pageW/2,y+16);doc.setFont('helvetica','normal');doc.text('Howard Smith Nazarene',pageW/2+20,y+16);
   y+=28;
   doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(32,201,151);doc.text('RESULTS',margin,y);y+=5;
-  const boxes=[{label:'SECTION A',val:sObj},{label:'SECTION C',val:sD},{label:'TOTAL SCORE',val:sTotal,hl:true},{label:'PERCENTAGE',val:sPct}];
-  const bw=colW/4-2;
+  const boxes=[{label:'SECTION A',val:sObj},{label:'SECTION B',val:sB},{label:'SECTION C',val:sD},{label:'TOTAL SCORE',val:sTotal,hl:true},{label:'PERCENTAGE',val:sPct}];
+  const bw=colW/5-2;
   boxes.forEach((b,i)=>{
-    const bx=margin+i*(bw+2.7);
+    const bx=margin+i*(bw+2.5);
     doc.setFillColor(b.hl?32:240,b.hl?201:252,b.hl?151:248);
     doc.setDrawColor(b.hl?20:200,b.hl?180:230,b.hl?100:230);
     doc.roundedRect(bx,y,bw,18,2,2,'FD');
