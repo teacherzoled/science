@@ -598,6 +598,12 @@ h1{font-family:'Fredoka One',cursive;font-size:clamp(1.9rem,5vw,3.1rem);line-hei
       </div>
     </div>
 
+    <!-- Dev autofill button — hidden in production, visible only when ?dev=1 in URL -->
+    <div id="devBar" style="display:none;text-align:center;margin-bottom:.8rem;">
+      <button class="btn-secondary" style="font-size:.78rem;padding:6px 18px;opacity:.7;" onclick="autoFillTest()">🛠️ Auto-Fill Test Answers</button>
+      <button class="btn-secondary" style="font-size:.78rem;padding:6px 18px;opacity:.7;margin-left:.5rem;" onclick="autoFillTestWrong()">❌ Fill Wrong Answers</button>
+    </div>
+
     <!-- Submit -->
     <div class="submit-area">
       <button class="btn-primary" id="submitBtn" onclick="handleSubmit()" disabled>✅ Submit Test</button>
@@ -635,7 +641,70 @@ h1{font-family:'Fredoka One',cursive;font-size:clamp(1.9rem,5vw,3.1rem);line-hei
 <button id="back-to-top" title="Back to top">↑</button>
 
 <script>
-// ═══ THEME ═══
+// ═══ DEV BAR ═══
+if(new URLSearchParams(window.location.search).get('dev')==='1'){
+  document.getElementById('devBar').style.display='block';
+}
+
+// ═══ AUTOFILL — CORRECT ANSWERS ═══
+function autoFillTest(){
+  // Student name
+  document.getElementById('studentName').value='Test Student';
+
+  // Section A — all correct
+  [['q1','b'],['q2','c'],['q3','d'],['q4','b']].forEach(([name,val])=>{
+    const container=document.getElementById(name+'-opts');
+    container.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));
+    const inp=document.querySelector(`input[name="${name}"][value="${val}"]`);
+    if(inp){inp.checked=true;inp.closest('.opt').classList.add('selected');}
+  });
+
+  // Section B
+  document.getElementById('q5').value='Ecosystems that receive high rainfall, like the tropical rainforest in Belize, support greater plant diversity because water is available year-round for photosynthesis and growth. In contrast, low-rainfall ecosystems like the savanna support fewer plant species because only drought-tolerant plants can survive the dry conditions.';
+  document.getElementById('q6').value='Mangrove plants survive near saltwater because they have prop roots that anchor them in soft, waterlogged soil and keep them stable. They also have the ability to filter and excrete salt through their leaves, which allows them to tolerate saline conditions that would kill most other plants.';
+  document.getElementById('q7').value='One difference between the rainforest and savanna ecosystems in Belize is rainfall. The tropical rainforest receives over 2,000 mm of rainfall per year and has a dense closed canopy, while the savanna receives less than 800 mm per year and has dry, open land with widely spaced trees.';
+
+  // Section C — Q8
+  document.getElementById('q8').value='Two abiotic factors affecting plant life are rainfall and soil moisture. In Patch A, the high rainfall of over 2,000 mm per year keeps the soil rich and moist, allowing a wide variety of plants like orchids, bromeliads, and cohune palms to grow. In Patch B, the low rainfall of less than 800 mm per year results in dry, sandy soil, so only drought-tolerant plants like dry grasses and thorny shrubs can survive.';
+
+  // Section C — Q9 radio + sentence
+  const q9A=document.querySelector('input[name="q9pick"][value="A"]');
+  if(q9A){q9A.checked=true;q9A.closest('.opt').classList.add('selected');document.querySelector('#q9-opts .opt[data-val="B"]')?.classList.remove('selected');}
+  document.getElementById('q9').value='Patch A';
+  document.getElementById('q9b').value='it receives over 2,000 mm of rainfall per year, has rich moist soil, a dense canopy, and supports many different plant species including orchids, bromeliads, cohune palms, and climbing vines — all evidence of high biodiversity.';
+
+  updateQuestionProgress();
+}
+
+// ═══ AUTOFILL — WRONG ANSWERS (tests partial/zero scoring) ═══
+function autoFillTestWrong(){
+  // Student name
+  document.getElementById('studentName').value='Test Student Wrong';
+
+  // Section A — all wrong
+  [['q1','a'],['q2','a'],['q3','a'],['q4','a']].forEach(([name,val])=>{
+    const container=document.getElementById(name+'-opts');
+    container.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));
+    const inp=document.querySelector(`input[name="${name}"][value="${val}"]`);
+    if(inp){inp.checked=true;inp.closest('.opt').classList.add('selected');}
+  });
+
+  // Section B — vague/partial answers
+  document.getElementById('q5').value='More rain means more plants grow.';
+  document.getElementById('q6').value='Mangroves can live in salty water because they are strong plants.';
+  document.getElementById('q7').value='The rainforest has more trees than the savanna.';
+
+  // Section C — partial
+  document.getElementById('q8').value='Rainfall affects the plants. Patch A has more rain so more plants grow there.';
+
+  // Q9 — wrong patch selected
+  const q9B=document.querySelector('input[name="q9pick"][value="B"]');
+  if(q9B){q9B.checked=true;q9B.closest('.opt').classList.add('selected');document.querySelector('#q9-opts .opt[data-val="A"]')?.classList.remove('selected');}
+  document.getElementById('q9').value='Patch B';
+  document.getElementById('q9b').value='because it has dry soil and fewer plants.';
+
+  updateQuestionProgress();
+}
 const THEMES = ['night','sunny','cloudy','nature'];
 function setTheme(t,btn){THEMES.forEach(x=>document.body.classList.remove('theme-'+x));document.body.classList.add('theme-'+t);document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');localStorage.setItem('vc-theme',t);}
 (function(){const s=localStorage.getItem('vc-theme');if(s&&THEMES.includes(s)){THEMES.forEach(x=>document.body.classList.remove('theme-'+x));document.body.classList.add('theme-'+s);document.querySelectorAll('.theme-btn').forEach(b=>{b.classList.toggle('active',b.textContent.toLowerCase().includes(s));});}})();
