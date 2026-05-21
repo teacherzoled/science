@@ -1056,7 +1056,7 @@ function downloadPDF(){
     if(y>235){doc.addPage();y=20;}
     doc.setDrawColor(200,225,215);doc.setLineWidth(0.3);doc.line(margin,y,pageW-margin,y);y+=6;
     doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(80,50,160);
-    doc.text('AI FEEDBACK — SECTIONS B & C',margin,y);y+=5;
+    doc.text('TEACHER FEEDBACK — SECTIONS B & C',margin,y);y+=5;
     ['q5','q6','q7','q8','q9'].forEach((q,i)=>{
       if(!ai[q])return;
       if(y>265){doc.addPage();y=20;}
